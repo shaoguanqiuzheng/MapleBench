@@ -1,0 +1,162 @@
+/* Quest editor section: browse list + full quest editor (info/say/act/check). */
+
+.quests {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.qst-empty-actions { display: flex; gap: var(--sp-2); }
+
+.qst-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--rad);
+  padding: var(--sp-3);
+}
+
+.qst-head { display: flex; align-items: center; gap: var(--sp-3); }
+.qst-head-text { flex: 1; min-width: 0; }
+.qst-head-title { font-size: var(--fs-18); font-weight: 700; letter-spacing: var(--ls-tight); }
+.qst-head-sub { font-size: var(--fs-12); color: var(--text-3); }
+.qst-head-sub b { color: var(--text-2); }
+
+.qst-select {
+  background: var(--field-bg, var(--panel));
+  border: 1px solid var(--border);
+  border-radius: var(--rad-sm, 6px);
+  color: var(--text-1);
+  font-size: var(--fs-13);
+  padding: 4px 8px;
+  max-width: 260px;
+}
+.qst-select:focus { border-color: var(--border-focus); box-shadow: var(--sh-focus); outline: none; }
+
+.qst-toolbar { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.qst-search { position: relative; flex: 1 1 240px; min-width: 190px; }
+.qst-search input {
+  width: 100%;
+  background: var(--field-bg, var(--panel));
+  border: 1px solid var(--border);
+  border-radius: var(--rad-sm, 6px);
+  color: var(--text-1);
+  font-size: var(--fs-13);
+  padding: 6px 10px 6px 30px;
+}
+.qst-search input:focus { border-color: var(--border-focus); box-shadow: var(--sh-focus); outline: none; }
+.qst-search .icon { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--text-3); }
+
+.qst-layout { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: var(--sp-3); align-items: start; }
+
+/* ---- list ---- */
+.qst-list { display: flex; flex-direction: column; gap: 2px; max-height: calc(100vh - 260px); overflow: auto; }
+.qst-list-head {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: var(--fs-12); color: var(--text-3); padding: 0 2px 6px;
+  position: sticky; top: 0; background: var(--panel); z-index: 1;
+}
+.qst-pager { display: flex; align-items: center; gap: 6px; }
+.qst-pager .btn { padding: 2px 6px; }
+
+.qst-empty { padding: 18px; text-align: center; color: var(--text-3); font-size: var(--fs-13); }
+
+.qst-item {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: 7px 8px; border-radius: var(--rad-sm, 6px);
+  background: none; border: 1px solid transparent;
+  color: var(--text-1); text-align: left; cursor: pointer; width: 100%;
+}
+.qst-item:hover { background: var(--hover, rgba(128,128,128,.08)); }
+.qst-item[data-active="true"] { background: var(--accent-soft, rgba(64,128,255,.12)); border-color: var(--border-focus); }
+.qst-item-id {
+  font-variant-numeric: tabular-nums; font-size: var(--fs-12);
+  color: var(--text-3); min-width: 52px;
+}
+.qst-item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.qst-item-name { font-size: var(--fs-13); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qst-item-sub { display: flex; gap: 8px; font-size: var(--fs-11); color: var(--text-3); }
+.qst-item-area { color: var(--text-2); }
+.qst-item-dirty { color: var(--coral-ink, #e5484d); font-weight: 600; }
+.qst-item-arrow { color: var(--text-3); }
+
+/* ---- detail ---- */
+.qst-detail { position: sticky; top: 0; max-height: calc(100vh - 200px); overflow: auto; }
+.qst-detail-empty {
+  display: flex; flex-direction: column; align-items: center; gap: var(--sp-2);
+  padding: 48px 12px; color: var(--text-3); font-size: var(--fs-13);
+}
+.qst-detail-busy { display: flex; flex-direction: column; gap: var(--sp-3); padding: 12px; }
+
+.qst-detail-head {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding-bottom: var(--sp-2); border-bottom: 1px solid var(--border);
+}
+.qst-detail-title { font-size: var(--fs-15); font-weight: 700; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.qst-tabs { display: flex; gap: 2px; margin: var(--sp-2) 0; border-bottom: 1px solid var(--border); }
+.qst-tab {
+  background: none; border: none; border-bottom: 2px solid transparent;
+  padding: 6px 12px; font-size: var(--fs-13); color: var(--text-2); cursor: pointer;
+}
+.qst-tab:hover { color: var(--text-1); }
+.qst-tab[aria-pressed="true"] { color: var(--text-1); border-bottom-color: var(--accent, #4c8dff); font-weight: 600; }
+
+.qst-tabbody { padding: var(--sp-2) 0; }
+
+.qst-detail-actions { display: flex; justify-content: flex-end; padding-top: var(--sp-3); border-top: 1px solid var(--border); margin-top: var(--sp-2); }
+
+/* ---- fields ---- */
+.qst-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2) var(--sp-3); }
+.qst-field { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.qst-field-label { font-size: var(--fs-11); color: var(--text-3); }
+.qst-field-hint { font-size: var(--fs-11); color: var(--text-3); }
+.qst-field input[type="text"], .qst-field input[type="number"], .qst-field select,
+.qst-card input[type="text"], .qst-card input[type="number"], .qst-card select,
+.qst-conv textarea, .qst-resp-item input {
+  background: var(--field-bg, var(--panel));
+  border: 1px solid var(--border);
+  border-radius: var(--rad-sm, 6px);
+  color: var(--text-1);
+  font-size: var(--fs-13);
+  padding: 5px 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.qst-field input:focus, .qst-card input:focus, .qst-conv textarea:focus, .qst-resp-item input:focus {
+  border-color: var(--border-focus); box-shadow: var(--sh-focus); outline: none;
+}
+.qst-bools { display: flex; flex-wrap: wrap; gap: 4px 16px; grid-column: 1 / -1; }
+.qst-check { display: inline-flex; align-items: center; gap: 5px; font-size: var(--fs-13); color: var(--text-1); cursor: pointer; }
+.qst-check input { accent-color: var(--accent, #4c8dff); }
+
+/* ---- say ---- */
+.qst-say, .qst-act, .qst-check { display: flex; flex-direction: column; gap: var(--sp-4); }
+.qst-say-section, .qst-act-section, .qst-check-section { display: flex; flex-direction: column; gap: var(--sp-2); }
+.qst-section-title { font-size: var(--fs-13); font-weight: 700; color: var(--text-2); padding-bottom: 2px; border-bottom: 1px solid var(--border); margin-bottom: 2px; }
+
+.qst-conv { border: 1px solid var(--border); border-radius: var(--rad-sm, 6px); padding: var(--sp-2); display: flex; flex-direction: column; gap: var(--sp-2); }
+.qst-conv-head { display: flex; align-items: center; gap: var(--sp-2); }
+.qst-conv-index { font-size: var(--fs-12); font-weight: 700; color: var(--text-3); }
+.qst-conv textarea { resize: vertical; font-family: inherit; line-height: 1.45; }
+.qst-resp-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
+.qst-resp-list { display: flex; flex-direction: column; gap: 4px; }
+.qst-resp-label { font-size: var(--fs-11); color: var(--text-3); }
+.qst-resp-item { display: flex; gap: 4px; align-items: center; }
+.qst-resp-item input { flex: 1; }
+.qst-resp-item .btn { padding: 3px 6px; }
+.qst-stop-head { font-size: var(--fs-12); font-weight: 700; color: var(--text-2); margin-top: 4px; }
+.qst-stop-type { font-size: var(--fs-12); font-weight: 700; color: var(--amber-ink, #b7791f); }
+
+/* ---- act / check cards ---- */
+.qst-card { border: 1px solid var(--border); border-radius: var(--rad-sm, 6px); padding: var(--sp-2); display: flex; flex-direction: column; gap: var(--sp-2); }
+.qst-card-head { display: flex; align-items: center; gap: var(--sp-2); }
+.qst-card-fields { display: flex; flex-direction: column; gap: var(--sp-2); }
+.qst-sub-block { border-left: 2px solid var(--border); padding-left: var(--sp-2); display: flex; flex-direction: column; gap: 4px; }
+.qst-sub-title { font-size: var(--fs-11); color: var(--text-3); }
+.qst-reward-row { display: flex; gap: 4px; align-items: center; }
+.qst-reward-row input { flex: 1; min-width: 60px; }
+.qst-reward-row select { flex: 1; min-width: 80px; }
+.qst-skill-row { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.qst-skill-row input { flex: 1; min-width: 70px; }
+.qst-skill-row .qst-check { flex: 1; min-width: 90px; }
+.qst-days { display: flex; gap: 10px; flex-wrap: wrap; }

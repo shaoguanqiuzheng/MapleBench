@@ -1,0 +1,203 @@
+/* ============================================================
+   Items mode: the sectioned workspace's item editor.
+   Same visual parts as the other sections (surface panels, form
+   rows, filter selects) but a purpose-built list + detail layout.
+   ============================================================ */
+
+.items {
+  display: flex; flex-direction: column;
+  min-height: 0; overflow: auto;
+  padding: var(--sp-4) var(--sp-6) var(--sp-8);
+  gap: var(--sp-4);
+}
+
+.item-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: var(--sp-4);
+}
+
+.item-empty-actions { display: flex; gap: var(--sp-2); }
+
+/* --- header --- */
+.item-head { display: flex; align-items: center; gap: var(--sp-3); }
+.item-head-text { flex: 1; min-width: 0; }
+.item-head-title { font-size: var(--fs-18); font-weight: 700; letter-spacing: var(--ls-tight); }
+.item-head-sub { font-size: var(--fs-12); color: var(--text-3); }
+.item-head-sub b { color: var(--text-2); }
+
+/* --- toolbar --- */
+.item-toolbar { display: flex; flex-direction: column; gap: var(--sp-3); }
+.item-toolbar-row { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.item-toolbar-actions { justify-content: space-between; }
+
+.item-select {
+  height: 34px; padding: 0 var(--sp-2);
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  background: var(--bg-field); color: var(--text-1);
+  font-size: var(--fs-13); cursor: pointer;
+}
+.item-select:focus { border-color: var(--border-focus); box-shadow: var(--sh-focus); outline: none; }
+
+.item-toolbar input[type="search"] {
+  height: 34px; min-width: 220px; flex: 1 1 260px;
+  padding: 0 var(--sp-3);
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  background: var(--bg-field); color: var(--text-1);
+  font-size: var(--fs-13);
+}
+.item-toolbar input[type="search"]:focus { border-color: var(--border-focus); box-shadow: var(--sh-focus); outline: none; }
+
+.item-req {
+  height: 34px; width: 108px; padding: 0 var(--sp-2);
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  background: var(--bg-field); color: var(--text-1);
+  font-size: var(--fs-13);
+}
+.item-req:focus { border-color: var(--border-focus); box-shadow: var(--sh-focus); outline: none; }
+
+.item-check { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-13); color: var(--text-2); cursor: pointer; user-select: none; }
+.item-check input { accent-color: var(--coral-ink); }
+
+.item-pager { display: flex; align-items: center; gap: var(--sp-2); }
+.item-pager-label { font-size: var(--fs-12); color: var(--text-3); min-width: 64px; text-align: center; }
+
+/* --- layout --- */
+.item-layout {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.6fr) minmax(320px, 1fr);
+  gap: var(--sp-4);
+  min-height: 0;
+  flex: 1;
+}
+.item-layout > .item-panel { min-height: 0; display: flex; flex-direction: column; }
+
+.item-busy { color: var(--text-3); font-size: var(--fs-13); padding: var(--sp-6); text-align: center; }
+
+/* --- list --- */
+.item-list { overflow: auto; }
+
+.item-row {
+  display: grid;
+  grid-template-columns: 28px 52px minmax(92px, 0.5fr) minmax(160px, 1.4fr) minmax(70px, 0.5fr) minmax(56px, 0.4fr) 28px;
+  align-items: center;
+  gap: var(--sp-2);
+  width: 100%;
+  padding: var(--sp-2) var(--sp-3);
+  background: none; border: 1px solid transparent; border-radius: var(--r-lg);
+  color: var(--text-1); font-size: var(--fs-13); text-align: left;
+  cursor: pointer;
+}
+.item-row:hover { background: var(--bg-hover); }
+.item-row-selected { background: var(--bg-active); border-color: var(--border-focus); }
+
+.item-row-head {
+  cursor: default; color: var(--text-3); font-size: var(--fs-11); text-transform: uppercase;
+  letter-spacing: 0.05em; border-bottom: 1px solid var(--border);
+  border-radius: 0; margin-bottom: var(--sp-1);
+}
+.item-row-head:hover { background: none; }
+
+.item-col { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item-col-check { display: flex; align-items: center; }
+.item-col-check input { accent-color: var(--coral-ink); }
+.item-col-id { font-variant-numeric: tabular-nums; color: var(--text-2); }
+.item-col-name { color: var(--text-1); }
+.item-col-cat { color: var(--text-2); }
+.item-col-part { color: var(--text-2); }
+.item-col-series { color: var(--text-3); font-variant-numeric: tabular-nums; }
+.item-col-flags { display: flex; gap: var(--sp-1); }
+
+.item-thumb {
+  width: 40px; height: 40px; object-fit: contain;
+  image-rendering: pixelated;
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  background: var(--bg-field);
+}
+.item-thumb-empty {
+  display: inline-block;
+  background: var(--bg-field);
+}
+
+.item-flag {
+  font-size: var(--fs-10); line-height: 1.4;
+  padding: 1px var(--sp-2); border-radius: var(--r-sm);
+  background: var(--bg-field); color: var(--text-3);
+  white-space: nowrap;
+}
+.item-flag-dirty { background: var(--coral-tint); color: var(--coral-ink); }
+
+/* --- detail --- */
+.item-detail { gap: var(--sp-3); }
+
+.item-detail-busy { color: var(--text-3); font-size: var(--fs-13); padding: var(--sp-6); text-align: center; }
+
+.item-detail-head { display: flex; align-items: center; gap: var(--sp-3); padding-bottom: var(--sp-3); border-bottom: 1px solid var(--border); }
+.item-detail-icon {
+  width: 56px; height: 56px; object-fit: contain;
+  image-rendering: pixelated;
+  border: 1px solid var(--border); border-radius: var(--r-lg);
+  background: var(--bg-field); flex: none;
+}
+.item-detail-head-text { flex: 1; min-width: 0; }
+.item-detail-title { font-size: var(--fs-14); font-weight: 700; }
+.item-detail-sub { font-size: var(--fs-12); color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.item-form-scroll { overflow: auto; flex: 1; min-height: 0; }
+
+.item-form { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-1) 0; }
+
+.item-field {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.9fr) minmax(120px, 1fr);
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--r-md);
+}
+.item-field:hover { background: var(--bg-hover); }
+.item-field-label { font-size: var(--fs-13); color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item-field-input {
+  height: 30px; width: 100%;
+  padding: 0 var(--sp-2);
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  background: var(--bg-field); color: var(--text-1);
+  font-size: var(--fs-13);
+}
+.item-field-input:focus { border-color: var(--border-focus); box-shadow: var(--sh-focus); outline: none; }
+.item-field-input[readonly] { background: var(--bg-field); color: var(--text-3); cursor: default; }
+.item-field-text { font-size: var(--fs-13); color: var(--text-1); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item-field-text.muted { color: var(--text-3); }
+.item-field-container { background: var(--bg-field); }
+
+.item-detail-actions {
+  display: flex; justify-content: flex-end;
+  padding-top: var(--sp-3); border-top: 1px solid var(--border);
+}
+
+/* --- icon editor --- */
+.item-icons {
+  display: flex; flex-wrap: wrap; gap: var(--sp-4);
+  padding: 0 0 var(--sp-3); margin-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--border);
+}
+.item-icon-cell {
+  display: flex; flex-direction: column; align-items: center;
+  gap: var(--sp-1); padding: var(--sp-2); min-width: 84px;
+  border: 1px solid var(--border); border-radius: var(--r-lg);
+  background: var(--bg-field);
+}
+.item-icon-thumb {
+  width: 48px; height: 48px; object-fit: contain;
+  image-rendering: pixelated;
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  background: var(--bg-surface);
+}
+.item-icon-name { font-size: var(--fs-12); color: var(--text-2); }
+.item-icon-size { font-size: var(--fs-11); color: var(--text-3); }
+.item-icon-actions { display: flex; gap: var(--sp-2); }
+
+/* --- bulk dialog --- */
+.item-bulk-form { display: flex; flex-direction: column; gap: var(--sp-3); padding: var(--sp-2) 0; }
+.item-bulk-form .item-field-input { width: 100%; }
