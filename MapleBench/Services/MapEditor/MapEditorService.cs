@@ -337,7 +337,7 @@ public sealed partial class MapEditorService
                     throw new InvalidOperationException(
                         $"'{path}' is not a map image. The map editor opens whole .img map images.");
                 }
-                iv = file.CustomIv ?? WzTool.GetIvByMapleVersion(file.MapleVersion);
+                iv = image.WzIv ?? file.CustomIv ?? WzTool.GetIvByMapleVersion(file.MapleVersion);
                 result = MapRoundTrip.LoadVerified(image, iv);
                 generation = _session.Generation;
             }
@@ -1036,7 +1036,7 @@ public sealed partial class MapEditorService
                              MapRoundTrip.CompareForTest(reopened, doc.Doc.Build()))
                         result.Differences.Add(difference.ToString());
                     if (result.Differences.Count == 0)
-                        result.Differences.Add("The bytes differ although every node matches.");
+                        result.Differences.Add($"The bytes differ although every node matches. {MapRoundTrip.DescribeFirstDifference(modelBytes, savedBytes)}");
                 }
 
                 if (result.Verified && pinFailure == null)

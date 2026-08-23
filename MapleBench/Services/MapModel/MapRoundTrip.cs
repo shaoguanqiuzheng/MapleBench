@@ -256,7 +256,7 @@ public static class MapRoundTrip
     /// block, which is where a WZ image's own string offsets are measured from
     /// too, so it can be read straight against a hex dump of the archive.
     /// </remarks>
-    private static string DescribeFirstDifference(byte[] expected, byte[] actual)
+    internal static string DescribeFirstDifference(byte[] expected, byte[] actual)
     {
         int limit = Math.Min(expected.Length, actual.Length);
         for (int i = 0; i < limit; i++)
